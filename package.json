@@ -1,0 +1,24 @@
+{
+  "name": "marsrover",
+  "version": "1.0.0",
+  "description": "Mars Rover Mission Control",
+  "main": "index.html",
+  "scripts": {
+    "test": "jest --watchAll",
+    "dev": "parcel src/index.html -d dist"
+  },
+  "author": "Tomás Cornelles",
+  "license": "ISC",
+  "dependencies": {
+    "parcel": "^1.12.3"
+  },
+  "resolutions": {
+    "@babel/preset-env": "7.13.8"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.13.10",
+    "@babel/preset-env": "^7.13.10",
+    "babel-jest": "^26.6.3",
+    "jest": "^26.6.3"
+  }
+}
