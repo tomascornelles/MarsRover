@@ -1,7 +1,9 @@
 const canvas = (() => {
   const _load = (element) => {
-    let ctx = element.getContext("2d");
-    _style(canvas);
+    console.log('element')
+    // let ctx = element.getContext("2d");
+    // _style(element);
+    return element
   };
 
   const _style = (canvas) => {
