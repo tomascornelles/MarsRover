@@ -1,17 +1,11 @@
 const canvas = (() => {
-  const _load = (element) => {
-    console.log('element')
-    // let ctx = element.getContext("2d");
-    // _style(element);
-    return element
+  const _load = () => {
+    let canvas = document.createElement('canvas')
+    canvas.classList.add('canvas')
+    document.querySelector('#map').append(canvas)
+    let ctx = canvas.getContext("2d");
   };
 
-  const _style = (canvas) => {
-    canvas.style.border = "1px solid crimson";
-    canvas.style.width = "100%";
-    canvas.style.height = "60vw";
-    canvas.style.maxHeight = "435px";
-  };
 
   return {
     load: _load,
