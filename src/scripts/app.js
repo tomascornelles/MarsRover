@@ -4,6 +4,7 @@ const roverApp = (() => {
     size: 200,
     obstacles: 200,
     pixelSize: 16,
+    orientation: 0,
     max: 0,
     map: [],
     manual: false,
@@ -31,18 +32,18 @@ const roverApp = (() => {
           e.preventDefault();
         }
         console.log(e.which);
-        _data.step.x =
-          e.which === 39
-            ? _data.step.x + 1
-            : e.which === 37
-            ? _data.step.x - 1
-            : _data.step.x;
-        _data.step.y =
-          e.which === 40
-            ? _data.step.y + 1
-            : e.which === 38
-            ? _data.step.y - 1
-            : _data.step.y;
+        if (e.which === 39) { _data.orientation = (_data.orientation === 3) ? 0 : _data.orientation + 1 }
+        else if (e.which === 37) { _data.orientation = (_data.orientation === 0) ? 3 : _data.orientation - 1 }
+        else if (e.which === 38) {
+          if (_data.orientation === 0)
+            _data.step.y = _data.step.y - 1;
+          else if (_data.orientation === 1)
+            _data.step.x = _data.step.x + 1;
+          else if (_data.orientation === 2)
+            _data.step.y = _data.step.y + 1;
+          else if (_data.orientation === 3)
+            _data.step.x = _data.step.x - 1;
+        }
         _printMap();
       }
     });
@@ -75,28 +76,45 @@ const roverApp = (() => {
         if (e.which === 13) {
           let steps = this.value.toUpperCase().split("");
           console.log(steps);
-          steps.forEach((step) => {
+          steps.every((step) => {
             if (step === "F") {
-              _data.step.y = _data.step.y - 1;
+              if (_data.orientation === 0)
+                _data.step.y = _data.step.y - 1;
+              else if (_data.orientation === 1)
+                _data.step.x = _data.step.x + 1;
+              else if (_data.orientation === 2)
+                _data.step.y = _data.step.y + 1;
+              else if (_data.orientation === 3)
+                _data.step.x = _data.step.x - 1;
             }
             if (step === "L") {
-              _data.step.x = _data.step.x - 1;
+              _data.orientation = (_data.orientation === 0) ? 3 : _data.orientation - 1
             }
             if (step === "R") {
-              _data.step.x = _data.step.x + 1;
+              _data.orientation = (_data.orientation === 3) ? 0 : _data.orientation + 1
             }
-            setTimeout(function () {
-              if (_checkCollision()) {
-                alert("Ha encontrado un obstáculo");
-                steps = []
-              } else {
-                _printMap();
-              }
-            }, 300);
+
+            if (_checkCollision()) {
+              alert("Ha encontrado un obstáculo");
+              return false
+            } else {
+              _printMap();
+              return true
+            }
           });
         }
       });
+    document.querySelector('.js-orientation').addEventListener('change', function () {
+      _data.orientation = 1 * this.value
+      _printMap()
+    })
   };
+
+  const _updateFields = () => {
+    document.querySelector('.js-initial').value = `${_data.center.x},${_data.center.y}`
+    document.querySelector('.js-orientation').value = _data.orientation
+    document.querySelector('.js-instructions').value = ''
+  }
 
   const _random = (n) => Math.round(Math.random() * (n || 1));
 
@@ -226,16 +244,34 @@ const roverApp = (() => {
             ctx.stroke();
           }
         }
+
+        const or = [0, Math.PI / 2, Math.PI, -Math.PI / 2]
         ctx.fillStyle = "crimson";
-        ctx.fillRect(
-          (_data.center.x - 0.5 - offsetX) * pixelSize,
-          (_data.center.y - 0.5 - offsetY) * pixelSize,
-          pixelSize,
-          pixelSize
-        );
+        if (_data.orientation === 0) {
+          ctx.translate((_data.center.x - 15.5 - offsetX) * pixelSize,
+            (_data.center.y - 14.5 - offsetY) * pixelSize)
+        }
+        if (_data.orientation === 1) {
+          ctx.translate((_data.center.x + 14.5 - offsetX) * pixelSize,
+            (_data.center.y - 15.5 - offsetY) * pixelSize)
+        }
+        if (_data.orientation === 2) {
+          ctx.translate((_data.center.x + 15.5 - offsetX) * pixelSize,
+            (_data.center.y + 14.5 - offsetY) * pixelSize)
+        }
+        if (_data.orientation === 3) {
+          ctx.translate((_data.center.x - 14.5 - offsetX) * pixelSize,
+            (_data.center.y + 15.5 - offsetY) * pixelSize)
+        }
+        ctx.rotate(or[_data.orientation])
+        ctx.font = "16px Arial";
+        ctx.fillText("▲", (_data.center.x - offsetX) * pixelSize,
+          (_data.center.y - 0.1 - offsetY) * pixelSize);
       }
       document.querySelector("#map").innerHTML = "";
       document.querySelector("#map").append(canvas);
+
+      _updateFields()
     }
   };
 
