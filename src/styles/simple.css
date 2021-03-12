@@ -207,6 +207,7 @@ select[disabled] {
 	cursor: default;
 	opacity: .5;
 	cursor: not-allowed;
+  outline: none;
 }
 
 input:disabled,
@@ -218,6 +219,22 @@ select:disabled {
 
 input[type="range"] {
   padding: 0;
+}
+
+input + label {
+  position: absolute;
+  left: 0.5em;
+  top: .25em;
+  transition: all .3s ease;
+}
+input:valid + label, input:focus + label {
+  position: absolute;
+  left: 0.31em;
+  top: 0;
+  margin-top: -1em;
+  background: var(--bg);
+  font-size: 0.8rem;
+  padding: .1em .5em;
 }
 
 /* Set the cursor to '?' while hovering over an abbreviation */
@@ -406,6 +423,7 @@ fieldset {
   border: 0;
   padding: 0;
   margin: 0;
+  position: relative;
 }
 
 /* Misc body elements */
