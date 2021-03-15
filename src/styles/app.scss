@@ -1,5 +1,7 @@
 @import './simple.css';
-
+body {
+  font-family: 'Courier New', Courier, monospace;
+}
 .canvas {
   border: 1px solid crimson;
   width: 100%;
@@ -8,5 +10,16 @@
   image-rendering: pixelated;
 }
 button.active {
-  opacity: .5;
+  opacity: 0.5;
+}
+input,
+select,
+textarea,
+button {
+  border-radius: 0;
+  border-color: crimson;
+}
+.block {
+  display: block;
+  width: 100%;
 }

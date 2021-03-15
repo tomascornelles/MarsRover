@@ -20,29 +20,34 @@
     <h1>Mars Rover Mission Control</h1>
   </header>
   <main>
+    <button class="js-manual block active">Manual control</button>
     <section id="map"></section>
     <div class="js-form">
       <fieldset>
         <input type="text"
-               name="initial"
+               id="initial"
                value="100,100"
                class="js-initial"
                required />
-        <label for="initial">Initial Point</label>
+        <label for="initial">Initial Point<span>: Write the coordenates and press "Enter"</span></label>
       </fieldset>
-      <select name="orientation"
-              class="js-orientation">
-        <option value="0">North</option>
-        <option value="1">East</option>
-        <option value="2">South</option>
-        <option value="3">West</option>
-      </select>
-      <input type="text"
-             placeholder="Instructions"
-             class="js-instructions" />
-      <br />
-      <button class="js-next">Send</button>
-      <button class="js-manual">Manual control</button>
+      <fieldset>
+        <select name="orientation"
+                class="js-orientation">
+          <option value="0">North</option>
+          <option value="1">East</option>
+          <option value="2">South</option>
+          <option value="3">West</option>
+        </select>
+        <label for="orientation">Orientation</label>
+      </fieldset>
+      <fieldset>
+        <input type="text"
+               class="js-instructions"
+               id="instructions"
+               required />
+        <label for="instructions">Instructions<span>: Use F, L, R to set a route and press Enter</span></label>
+      </fieldset>
     </div>
   </main>
   <footer>
